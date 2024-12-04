@@ -19,25 +19,32 @@ body {
             flex-direction: column;
             grid-row-gap: $dotmargin;
 
-            .row-wrapper {
+            .dotmatrix-line-wrapper {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                flex-direction: row;
-                grid-column-gap: $dotmargin;
+                flex-direction: column;
+                grid-row-gap: $dotmargin;
 
-                .dot {
-                    width: $dotsize;
-                    height: $dotsize;
-                    background-color: $passive;
-                    border-radius: 50%;
-
-                    &.active {
-                        background-color: $active;
+                .row-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    grid-column-gap: $dotmargin;
+    
+                    .dot {
+                        width: $dotsize;
+                        height: $dotsize;
+                        background-color: $passive;
+                        border-radius: 50%;
+    
+                        &.active {
+                            background-color: $active;
+                        }
                     }
                 }
             }
         }
-
     }
 }
