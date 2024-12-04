@@ -1,6 +1,7 @@
 class DotMatrix {
-    #scroll_interval;
     #char_padding;
+    #scroll_interval;
+    #scroll_speed;
     #dots;
     #to_set;
 
@@ -11,12 +12,13 @@ class DotMatrix {
 
         this.#char_padding = 1;
         this.#scroll_interval = null;
+        this.#scroll_speed = 25;
 
         this.#generate_dom_elements();
 
         this.#dots = this.wrapper.find(".dot")
 
-        this.#to_set = []
+        this.#to_set = ""
     }
 
     #generate_dom_elements() {
@@ -45,11 +47,11 @@ class DotMatrix {
 
     #set_all() {
         this.clear(false)
-        for (let dot of this.#to_set) dot.addClass("active")
-        this.#to_set = []
+        $(`${this.wrapper.selector} ${this.#to_set.slice(0,-2)}`).addClass("active")
+        this.#to_set = ""
     }
 
-    #set_active(x,y) { this.#to_set.push(this.#get(x,y)); }
+    #set_active(x,y) { this.#to_set += `.r${y}.c${x}, `; }
 
     #get_text_width(text) {
         let width = 0;
@@ -103,7 +105,7 @@ class DotMatrix {
             x-=1
 
             if (x*-1 == width) x = parent.col_count;
-        },30, this)
+        }, this.#scroll_speed, this)
     }
 
     write(text) {
