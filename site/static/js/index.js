@@ -109,6 +109,8 @@ class DotMatrix {
     }
 
     write(text) {
+        if (!text) { this.clear(true); return }
+
         let width = this.#get_text_width(text);
 
         this.clear();
@@ -126,3 +128,4 @@ let dotmatrix = new DotMatrix(".dotmatrix-wrapper",12,96)
 
 dotmatrix.write("Kinesys rocks!")
 dotmatrix.write("Help, I'm stuck in a DotMatrix Board!")
+dotmatrix.write("false")
