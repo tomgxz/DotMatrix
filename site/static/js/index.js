@@ -101,89 +101,11 @@ class DotMatrix {
         let width = this.#get_text_width(text);
 
         this.clear();
-        if (width < this.col_count) this.#write_simple(text, 0, 0);
-        else this.#write_scroll(text, 0);
+        if (width < this.col_count) this.#write_simple(text, 0, 2);
+        else this.#write_scroll(text, 2);
     }
 }
-
-/* 
-
-const dotmatrix_wrapper = $(".dotmatrix-wrapper"),
-    dotmatrix_rows = 12,
-    dotmatrix_cols = 48,
-    dotmatrix_letter_padding = 1;
-
-
-for (let row = 0; row < dotmatrix_rows; row ++) {
-    let row_wrapper = $("<div />").addClass(`row-wrapper r${row}`)
-
-    dotmatrix_wrapper.append(row_wrapper)
-
-    for (let col = 0; col < dotmatrix_cols; col ++) {
-        row_wrapper.append(
-            $("<div />").addClass(`dot r${row} c${col}`)
-        )
-    }
-}
-
-const dotmatrix_dots = dotmatrix_wrapper.find(".dot")
-
-
-const dotmatrix_clear = () => dotmatrix_dots.removeClass("active")
-
-
-const dotmatrix_get = (row, col) => dotmatrix_dots.filter(`.r${row}.c${col}`)
-const dotmatrix_get_vector_row = (rs, re, c) => null
-
-
-const dotmatrix_set_dot_active = dots => dots.addClass("active")
-const dotmatrix_set_dot_passive = dots => dots.removeClass("active")
-
-const dotmatrix_set_coord_active = (row, col) => dotmatrix_set_dot_active(dotmatrix_get(row, col))  // row=y, column=x
-const dotmatrix_set_coord_passive = (row, col) => dotmatrix_set_dot_passive(dotmatrix_get(row, col))  // row=y, column=x
-
-
-const dotmatrix_get_text_width = text => {
-    let width = 0;
-    
-    for (let char of text) width += characters[char].width + dotmatrix_letter_padding
-    return width
-}
-
-const dotmatrix_set_char = (char, row=0, col=0) => {
-    if (col >= dotmatrix_cols) return col
-    if (row >= dotmatrix_rows) return col
-
-    let start_col = col
-
-    for (let char_row of characters[char].aslist) {
-        if (row >= dotmatrix_rows) continue
-        col = start_col
-
-        for (let char_col of char_row) {
-            if (col >= dotmatrix_cols) continue
-
-            if (char_col == "1") dotmatrix_set_coord_active(row,col)
-            else dotmatrix_set_coord_passive(row,col)
-            col ++
-        }
-
-        row ++
-    }
-
-    return col
-}
-
-
-const dotmatrix_write = (text, row=0, col=0) => {
-    for (let char of text) {
-        col = dotmatrix_set_char(char,row,col) + 1
-    }
-}
-
-
-*/
 
 let dotmatrix = new DotMatrix(".dotmatrix-wrapper",12,48)
 
-dotmatrix.write("Help, I'm stuck in a DotMatrix Board!")
+dotmatrix.write("Kinesys rocks!")
