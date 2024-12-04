@@ -2,6 +2,7 @@ class DotMatrix {
     #scroll_interval;
     #char_padding;
     #dots;
+    #to_set;
 
     constructor(wrapper,rows,columns) {
         this.wrapper = $(wrapper);
@@ -14,6 +15,8 @@ class DotMatrix {
         this.#generate_dom_elements();
 
         this.#dots = this.wrapper.find(".dot")
+
+        this.#to_set = []
     }
 
     #generate_dom_elements() {
@@ -40,11 +43,13 @@ class DotMatrix {
     #get(x, y) { return this.#dots.filter(`.r${y}.c${x}`); } // row=y, column=x
     #get_vector(x1, x2, y) { return null; }
 
-    #set_active_dom(dots) { dots.addClass("active"); }
-    #set_passive_dom(dots) { dots.removeClass("active"); }
+    #set_all() {
+        this.clear(false)
+        for (let dot of this.#to_set) dot.addClass("active")
+        this.#to_set = []
+    }
 
-    #set_active(x,y) { this.#set_active_dom(this.#get(x,y)); }
-    #set_passive(x,y) { this.#set_passive_dom(this.#get(x,y)); }
+    #set_active(x,y) { this.#to_set.push(this.#get(x,y)); }
 
     #get_text_width(text) {
         let width = 0;
@@ -52,14 +57,17 @@ class DotMatrix {
         for (let char of text) width += characters[char].width + this.#char_padding;
         return width;
     }
-
+    
     #set_char(char, x=0, y=0) {
+        char = characters[char]
+
+        if (y >= this.row_count || y < 0) return x;
         if (x >= this.col_count) return x;
-        if (y >= this.row_count) return x;
+        if (x < -1*char.width) return x + char.width;
     
         let start_x = x;
     
-        for (let char_row of characters[char].aslist) {
+        for (let char_row of char.aslist) {
             if (y >= this.row_count) continue;
             x = start_x;
     
@@ -67,7 +75,6 @@ class DotMatrix {
                 if (x >= this.col_count) continue;
     
                 if (char_col == "1") this.#set_active(x,y);
-                else this.#set_passive(x,y);
                 x++;
             }
     
@@ -81,6 +88,8 @@ class DotMatrix {
         for (let char of text) {
             x = this.#set_char(char,x,y) + 1;
         }
+
+        this.#set_all()
     }
 
     #write_scroll(text, y=0) {
@@ -101,11 +110,17 @@ class DotMatrix {
         let width = this.#get_text_width(text);
 
         this.clear();
-        if (width < this.col_count) this.#write_simple(text, 0, 2);
+        
+        if (width < this.col_count) {
+            let x = Math.ceil(this.col_count/2) - Math.floor(width/2)
+            this.#write_simple(text, x, 2);
+        }
+
         else this.#write_scroll(text, 2);
     }
 }
 
-let dotmatrix = new DotMatrix(".dotmatrix-wrapper",12,48)
+let dotmatrix = new DotMatrix(".dotmatrix-wrapper",12,96)
 
 dotmatrix.write("Kinesys rocks!")
+dotmatrix.write("Help, I'm stuck in a DotMatrix Board!")
