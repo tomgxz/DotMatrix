@@ -9,16 +9,18 @@ class DotMatrixLine {
     #start_row;
     #scroll_interval;
     #scroll_speed;
+    #parent;
     #end_row;
     #dots;
     #to_set;
 
-    constructor(wrapper, line, columns, scroll_interval, scroll_speed) {
+    constructor(wrapper, line, columns, scroll_interval, scroll_speed, parent) {
         this.#line_number = line;
         this.#start_row = line * dm_line_height;
         this.#end_row = this.#start_row + dm_line_height;
         this.#scroll_interval = scroll_interval;
         this.#scroll_speed = scroll_speed;
+        this.#parent = parent;
 
         this.global_wrapper = $(wrapper);
         this.wrapper = null;
@@ -152,7 +154,8 @@ class DotMatrix {
                 i,
                 this.col_count,
                 this.#scroll_interval,
-                this.#scroll_speed
+                this.#scroll_speed,
+                this
             ))
         }
     }
@@ -166,8 +169,18 @@ class DotMatrix {
 
 let dotmatrix = new DotMatrix(".dotmatrix-wrapper",2,96)
 
-dotmatrix.write("Help, I'm stuck in a DotMatrix Board!",1)
-dotmatrix.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",0)
-
-
 dotmatrix.write("Kinesys rocks!",1)
+dotmatrix.write("Help, I'm stuck in a DotMatrix Board!",1)
+
+let flash = 1, now, str;
+
+setInterval(function(){
+    str = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+    if (flash) str = str.replace(":","#")
+
+    dotmatrix.write(str,0)
+
+    flash = !flash
+
+},1000)
