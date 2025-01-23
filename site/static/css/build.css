@@ -14,29 +14,31 @@ body .page-content {
   overflow: hidden;
 }
 body .page-content .dotmatrix-wrapper {
+  --dotsize: $default_dotsize;
+  --dotmargin: $default_dotmargin;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  grid-row-gap: 4px;
+  grid-row-gap: var(--dotmargin);
 }
 body .page-content .dotmatrix-wrapper .dotmatrix-line-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  grid-row-gap: 4px;
+  grid-row-gap: var(--dotmargin);
 }
 body .page-content .dotmatrix-wrapper .dotmatrix-line-wrapper .row-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  grid-column-gap: 4px;
+  grid-column-gap: var(--dotmargin);
 }
 body .page-content .dotmatrix-wrapper .dotmatrix-line-wrapper .row-wrapper .dot {
-  width: 16px;
-  height: 16px;
+  width: var(--dotsize);
+  height: var(--dotsize);
   background-color: #484444;
   border-radius: 50%;
 }

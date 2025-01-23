@@ -3,6 +3,8 @@ const dm_font_height = 9,
       dm_line_height = dm_font_height + dm_line_padding*2,
       dm_char_padding = 1;
 
+let dotsize = 16,
+    dotmargin = 4;
 
 class DotMatrixLine {
     #line_number;
@@ -36,7 +38,6 @@ class DotMatrixLine {
         this.wrapper = $("<div />").addClass(`dotmatrix-line-wrapper dotmatrix-line-wrapper-${this.#line_number}`);
         this.global_wrapper.append(this.wrapper);
 
-        console.log(this.#start_row)
         for (let row = this.#start_row; row < this.#end_row; row ++) {
             let row_wrapper = $("<div />").addClass(`row-wrapper r${row}`);
         
@@ -125,7 +126,6 @@ class DotMatrixLine {
         }
 
         else this.#write_scroll(text);
-        console.log(text)
     }
     
     clear(scrolling=true) {
@@ -158,11 +158,36 @@ class DotMatrix {
                 this
             ))
         }
+
+        console.log(this.col_count)
+        
+        $(window).resize(this.resize.bind(this));
+        this.resize();
     }
 
     write(text,line) {
         if (line >= this.lines.length || line < 0) return
         this.lines[line].write(text)
+    }
+
+    resize() {
+        let width, height, dot_outer_width, dot_width, dot_margin;
+
+        width = this.global_wrapper.parent().innerWidth();
+        height = this.global_wrapper.parent().innerHeight();
+
+        dot_outer_width = width / this.col_count;
+
+        while (this.row_count * dot_outer_width > height) {
+            dot_outer_width--;
+        }
+
+        // 4 / 1 width to padding ratio
+        dot_width = dot_outer_width / 5 * 4;
+        dot_margin = dot_outer_width / 5;
+
+        this.global_wrapper.get(0).style.setProperty('--dotsize', `${dot_width}px`);
+        this.global_wrapper.get(0).style.setProperty('--dotmargin', `${dot_margin}px`);
     }
 }
 

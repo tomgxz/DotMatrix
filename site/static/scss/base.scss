@@ -14,29 +14,32 @@ body {
         overflow: hidden;
 
         .dotmatrix-wrapper {
+            --dotsize: $default_dotsize;
+            --dotmargin: $default_dotmargin;
+
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            grid-row-gap: $dotmargin;
+            grid-row-gap: var(--dotmargin);
 
             .dotmatrix-line-wrapper {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                grid-row-gap: $dotmargin;
+                grid-row-gap: var(--dotmargin);
 
                 .row-wrapper {
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     flex-direction: row;
-                    grid-column-gap: $dotmargin;
+                    grid-column-gap: var(--dotmargin);
     
                     .dot {
-                        width: $dotsize;
-                        height: $dotsize;
+                        width: var(--dotsize);
+                        height: var(--dotsize);
                         background-color: $passive;
                         border-radius: 50%;
     
